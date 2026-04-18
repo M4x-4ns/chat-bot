@@ -1,15 +1,14 @@
-import { MOVIES } from '../data/movies'
+import { MOVIE_LOOKUP } from '../data/movieLookup'
 import styles from './ChatMessage.module.css'
 
 const movieByTitle = Object.fromEntries(
-  MOVIES.map(m => [m.title.toLowerCase(), m.imdbId])
+  MOVIE_LOOKUP.map(m => [m.title.toLowerCase(), m.imdbId])
 )
 
 function lookupImdbId(title) {
   const key = title.toLowerCase().trim()
   if (movieByTitle[key]) return movieByTitle[key]
-  // Partial match: "Pee Mak" matches "Pee Mak Phra Khanong" and vice versa
-  const match = MOVIES.find(m => {
+  const match = MOVIE_LOOKUP.find(m => {
     const t = m.title.toLowerCase()
     return t.includes(key) || key.includes(t)
   })
