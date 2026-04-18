@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bash \"C:/Users/m4x00/.claude/plugins/cache/claude-plugins-official/superpowers/5.0.7/skills/brainstorming/scripts/start-server.sh\" --project-dir \"D:/chat-bot\")",
+      "Bash(npm create *)",
+      "Bash(npm install *)",
+      "Bash(npm run *)",
+      "Bash(node scripts/extract-movies.js)",
+      "Bash(mv D:/chat-bot/frontend/scripts/extract-movies.js D:/chat-bot/frontend/scripts/extract-movies.cjs)",
+      "Bash(node scripts/extract-movies.cjs)",
+      "Bash(npm test *)",
+      "Bash(gh auth *)",
+      "Bash(gh repo *)"
+    ]
+  }
+}

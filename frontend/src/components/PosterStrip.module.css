@@ -1,0 +1,38 @@
+.strip {
+  display: flex;
+  height: 80px;
+  overflow: hidden;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.strip::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 32px;
+  background: linear-gradient(transparent, var(--color-bg));
+  pointer-events: none;
+}
+
+.poster {
+  flex: 1;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.55;
+}
+
+.placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--color-gold-subtle), #2d2000);
+  opacity: 0.5;
+}

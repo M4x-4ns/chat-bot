@@ -1,0 +1,13 @@
+.area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+}
+
+.area::-webkit-scrollbar { width: 4px; }
+.area::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 2px; }
