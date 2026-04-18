@@ -51,7 +51,7 @@ export function PosterCarousel({ movies }) {
 
       <div className={styles.track}>
         {visible.map(({ movie, offset }) => (
-          <Poster key={`${movie.imdbId}-${offset}`} movie={movie} isCenter={offset === 0} />
+          <Poster key={offset} movie={movie} isCenter={offset === 0} />
         ))}
       </div>
 
