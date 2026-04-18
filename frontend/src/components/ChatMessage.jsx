@@ -5,6 +5,17 @@ const movieByTitle = Object.fromEntries(
   MOVIES.map(m => [m.title.toLowerCase(), m.imdbId])
 )
 
+function lookupImdbId(title) {
+  const key = title.toLowerCase().trim()
+  if (movieByTitle[key]) return movieByTitle[key]
+  // Partial match: "Pee Mak" matches "Pee Mak Phra Khanong" and vice versa
+  const match = MOVIES.find(m => {
+    const t = m.title.toLowerCase()
+    return t.includes(key) || key.includes(t)
+  })
+  return match?.imdbId
+}
+
 function renderMarkdown(text) {
   const parts = text.split(/(\*\*[^*]+\*\*)/g)
   return parts.map((part, i) => {
@@ -20,41 +31,43 @@ function renderMarkdown(text) {
   })
 }
 
-function SourceLine({ title }) {
-  const imdbId = movieByTitle[title.toLowerCase()]
-  return (
-    <div className={styles.source}>
-      🎬 อ้างอิงจากรีวิวเรื่อง:{' '}
-      {imdbId ? (
-        <a
-          href={`https://www.imdb.com/title/${imdbId}/`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={styles.imdbLink}
-        >
-          {title} ↗
-        </a>
-      ) : (
-        <span>{title}</span>
-      )}
-    </div>
-  )
-}
 
 function renderContent(content) {
-  const sourcePattern = /🎬\s*อ้างอิงจากรีวิวเรื่อง:\s*(.+)/g
+  // Match both plain and bold-wrapped citation: **🎬 อ้างอิงจากรีวิวเรื่อง:** or 🎬 อ้างอิงจากรีวิวเรื่อง:
+  const CITATION_RE = /^\*{0,2}🎬\s*อ้างอิงจากรีวิวเรื่อง:\*{0,2}\s*(.+)$/
   const lines = content.split('\n')
   const result = []
   let textBuffer = []
 
   for (let i = 0; i < lines.length; i++) {
-    const match = lines[i].match(/^🎬\s*อ้างอิงจากรีวิวเรื่อง:\s*(.+)$/)
+    const match = lines[i].match(CITATION_RE)
     if (match) {
       if (textBuffer.length) {
         result.push(<span key={`t-${i}`}>{renderMarkdown(textBuffer.join('\n'))}</span>)
         textBuffer = []
       }
-      result.push(<SourceLine key={`s-${i}`} title={match[1].trim()} />)
+      // Handle multiple comma-separated titles
+      const titles = match[1].split(',').map(t => t.trim()).filter(Boolean)
+      result.push(
+        <div key={`s-${i}`} className={styles.source}>
+          🎬 อ้างอิงจากรีวิวเรื่อง:{' '}
+          {titles.map((title, j) => {
+            const imdbId = lookupImdbId(title)
+            return (
+              <span key={title}>
+                {j > 0 && ', '}
+                {imdbId ? (
+                  <a href={`https://www.imdb.com/title/${imdbId}/`} target="_blank" rel="noopener noreferrer" className={styles.imdbLink}>
+                    {title} ↗
+                  </a>
+                ) : (
+                  <span>{title}</span>
+                )}
+              </span>
+            )
+          })}
+        </div>
+      )
     } else {
       textBuffer.push(lines[i])
     }
