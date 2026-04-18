@@ -10,6 +10,32 @@
   z-index: 10;
 }
 
+.logoArea {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.backBtn {
+  background: none;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  font-size: 16px;
+  width: 30px;
+  height: 30px;
+  border-radius: var(--radius-circle);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.backBtn:hover {
+  color: var(--color-gold);
+  border-color: var(--color-gold);
+}
+
 .logo {
   color: var(--color-gold);
   font-weight: bold;

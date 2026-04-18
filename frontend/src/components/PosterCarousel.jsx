@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useTMDB } from '../hooks/useTMDB'
 import styles from './PosterCarousel.module.css'
 
@@ -22,6 +22,14 @@ export function PosterCarousel({ movies }) {
   const [centerIndex, setCenterIndex] = useState(
     Math.min(2, Math.floor(movies.length / 2))
   )
+
+  useEffect(() => {
+    if (!movies.length) return
+    const timer = setInterval(() => {
+      setCenterIndex(i => (i + 1) % movies.length)
+    }, 3000)
+    return () => clearInterval(timer)
+  }, [movies.length])
 
   if (!movies.length) return null
 

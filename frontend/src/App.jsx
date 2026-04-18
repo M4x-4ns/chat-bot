@@ -20,9 +20,11 @@ export default function App() {
     sendMessage(text)
   }
 
+  const handleBack = () => setChatActive(false)
+
   return (
     <div className={styles.app}>
-      <Navbar activeRange={activeRange} onRangeChange={setActiveRange} />
+      <Navbar activeRange={activeRange} onRangeChange={setActiveRange} onBack={chatActive ? handleBack : null} />
 
       {chatActive ? (
         <>
